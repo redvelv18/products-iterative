@@ -1,9 +1,409 @@
-@import 'tailwindcss';
+/* ==========================================================================
+   Mainīgie un pamata stili
+   ========================================================================== */
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+:root {
+    --color-bg: #f4f6f8;
+    --color-surface: #ffffff;
+    --color-text: #1f2933;
+    --color-muted: #52606d;
+    --color-border: #d9e2ec;
+    --color-primary: #1f3a5f;
+    --color-primary-hover: #16294422;
+    --color-accent: #2563eb;
+    --color-danger: #b42318;
+    --radius: 0.5rem;
+    --shadow: 0 1px 2px rgb(15 23 42 / 8%);
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1,
+h2 {
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-size: 1.125rem;
+}
+
+code {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.875em;
+    background-color: var(--color-border);
+    border-radius: 0.25rem;
+}
+
+/* ==========================================================================
+   CSS ielādes tests — ja šis teksts ir sarkans, app.css ir ielādēts
+   ========================================================================== */
+
+.css-test {
+    color: red;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   "Holy grail" izklājums ar CSS Grid
+   ========================================================================== */
+
+.holy-grail {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "nav    main   aside"
+        "footer footer footer";
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(12rem, 18rem);
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    max-width: 87.5rem;
+    margin-inline: auto;
+    padding: 1rem;
+}
+
+.holy-grail__header {
+    grid-area: header;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    color: #ffffff;
+    background-color: var(--color-primary);
+    border-radius: var(--radius);
+}
+
+.holy-grail__header a {
+    color: inherit;
+}
+
+.holy-grail__nav {
+    grid-area: nav;
+    padding: 1rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.holy-grail__nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.holy-grail__nav li + li {
+    margin-top: 0.5rem;
+}
+
+.holy-grail__main {
+    grid-area: main;
+    min-width: 0;
+    padding: 1.5rem;
+    overflow-x: auto;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.holy-grail__aside {
+    grid-area: aside;
+    padding: 1rem;
+    font-size: 0.9375rem;
+    background-color: #e8eef7;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.holy-grail__footer {
+    grid-area: footer;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.holy-grail__footer p {
+    margin: 0;
+}
+
+/* Navigācija */
+
+.site-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.primary-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.primary-nav a {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid rgb(255 255 255 / 40%);
+    border-radius: var(--radius);
+}
+
+.primary-nav a.is-active {
+    background-color: rgb(255 255 255 / 18%);
+    border-color: #ffffff;
+}
+
+/* ==========================================================================
+   Lapas saturs
+   ========================================================================== */
+
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+    margin: 0;
+}
+
+.flash {
+    margin: 0 0 1.25rem;
+    padding: 0.75rem 1rem;
+    color: #0b4a2f;
+    background-color: #e3f7ec;
+    border: 1px solid #a7dfc3;
+    border-radius: var(--radius);
+}
+
+.empty-state {
+    color: var(--color-muted);
+}
+
+.table {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+}
+
+.table tbody tr:hover {
+    background-color: #f7fafc;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.actions form {
+    margin: 0;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.75rem 1.5rem;
+    margin: 0 0 2rem;
+}
+
+.details dt {
+    font-weight: 600;
+    color: var(--color-muted);
+}
+
+.details dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   Pogas
+   ========================================================================== */
+
+.button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    color: var(--color-primary);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.button:hover {
+    text-decoration: none;
+    background-color: #f0f4f8;
+}
+
+.button--primary {
+    color: #ffffff;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.button--primary:hover {
+    color: #ffffff;
+    background-color: #16294a;
+}
+
+.button--danger {
+    color: var(--color-danger);
+    border-color: #f0b4ae;
+}
+
+.button--danger:hover {
+    background-color: #fdf0ef;
+}
+
+.link-button {
+    padding: 0;
+    font: inherit;
+    color: var(--color-danger);
+    cursor: pointer;
+    background: none;
+    border: 0;
+}
+
+.link-button:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Veidlapas
+   ========================================================================== */
+
+.product-form {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 38rem;
+}
+
+.field {
+    display: grid;
+    gap: 0.375rem;
+}
+
+.field label {
+    font-weight: 600;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    color: inherit;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: var(--color-accent);
+    outline: 2px solid rgb(37 99 235 / 25%);
+    outline-offset: 1px;
+}
+
+.error {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-danger);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* ==========================================================================
+   Pielāgošanās mazākiem ekrāniem
+   ========================================================================== */
+
+@media (max-width: 62rem) {
+    .holy-grail {
+        grid-template-areas:
+            "header"
+            "nav"
+            "main"
+            "aside"
+            "footer";
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .holy-grail__nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+    }
+
+    .holy-grail__nav li + li {
+        margin-top: 0;
+    }
 }
